@@ -4,7 +4,8 @@ import styled from 'styled-components'
 const OuterWrap = styled.div`
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 128, 0, 0.2);
+  /* background-color: rgba(0, 128, 0, 0.2); */
+  background-color: darkslategray;
 `
 const InnerWrap = styled.div`
   width: 60%;
@@ -103,8 +104,11 @@ const Main = () => {
   const handleInput = (e) => {
     setInputs(e.target.value)
   }
-  const AddDodolist = () => {
-    setDodolist([...dodolist, inputs])
+
+  const AddDodolist = (e) => {
+    e
+      ? setDodolist([...dodolist, e.target.value])
+      : setDodolist([...dodolist, inputs])
   }
   return (
     <OuterWrap>
@@ -119,10 +123,11 @@ const Main = () => {
             <DodoInput
               placeholder="~하기"
               onBlur={handleInput}
-              onKeyPress={(e) => {
-                handleInput(e)
-                e.key === 'Enter' && AddDodolist()
-              }}
+              // onKeyPress={(e) => {
+              //   handleInput(e)
+              //   e.key === 'Enter' && AddDodolist()
+              // }}
+              onKeyPress={AddDodolist}
             />
             <SubmitBtn onClick={AddDodolist}>추가</SubmitBtn>
           </DodoInputArea>
