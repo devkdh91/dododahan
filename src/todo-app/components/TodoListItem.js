@@ -31,7 +31,7 @@ const Text = styled.div`
   ${(props) =>
     props.checked &&
     css`
-      color: 'adb5bd';
+      color: #adb5bd;
       text-decoration: line-through;
     `}
   margin-left: 0.5rem;
@@ -47,19 +47,21 @@ const Remove = styled.div`
     color: #ff8787;
   }
 `
-const TodoListItem = () => {
+const TodoListItem = ({todo, onRemove, onToggle}) => {
   return (
     <TodoListItems>
-      <Checkbox>
-        <MdCheckBoxOutlineBlank />
+      <Checkbox checked={todo.checked} onClick={()=>{
+        onToggle(todo.id)
+      }}>
+      {todo.checked ? <MdCheckBox/> : <MdCheckBoxOutlineBlank />}  
 
-        <Text>할 일</Text>
+        <Text checked={todo.checked}>{todo.text}</Text>
       </Checkbox>
-      <Remove>
+      <Remove onClick={() => {onRemove(todo.id)}}>
         <MdRemoveCircleOutline />
       </Remove>
     </TodoListItems>
   )
 }
 
-export default TodoListItem
+export default React.memo(TodoListItem)
