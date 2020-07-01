@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 export const Buttons = styled.div`
   width: 60%;
   margin: 0 auto;
-  margin-top: ${(props) => props.marginTop || '0px;'};
+  padding-top: ${(props) => props.paddingTop || '0px;'};
   display: flex;
   justify-content: space-around;
 `
@@ -21,7 +21,7 @@ export const Button = styled(Link)`
 `
 const Navigator = () => {
   return (
-    <Buttons marginTop="200px">
+    <Buttons paddingTop="200px">
       <Button to="/todoapp">투두 앱</Button>
       <Button to="/dodolist">두두리스트</Button>
       <Button to="/study">공부방</Button>

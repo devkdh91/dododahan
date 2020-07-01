@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useCallback} from 'react'
 import styled from 'styled-components'
 import TodoListItem from './TodoListItem'
 
@@ -9,12 +9,15 @@ const TodoLists = styled.div`
 `
 
 const TodoList = ({todos, onRemove, onToggle}) => {
+  
   return (
-    <TodoLists>
+    <TodoLists
+      
+    >
       {todos.map(todo => <TodoListItem onRemove={onRemove} todo={todo} key={todo.id} onToggle={onToggle}></TodoListItem>)}
       
     </TodoLists>
   )
 }
 
-export default TodoList
+export default React.memo(TodoList)

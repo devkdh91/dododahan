@@ -55,10 +55,15 @@ const DodoInput = styled.input`
 `
 const TimeInput = styled(DodoInput).attrs({
   type: 'number',
-  //   min: '0',
+    min: '0',
 })`
   width: 3rem;
   margin-right: 0.1rem;
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 `
 const Texts = styled.div`
   display: inline-block;
