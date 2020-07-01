@@ -2,10 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 
 const OuterWrap = styled.div`
-position:relative;
+  position: relative;
   width: 100%;
-  height: 100%;
-  padding-top:6rem;
+  height: calc(100% - 6rem);
+  padding-top: 6rem;
   background-color: darkslategray;
 `
 const DodoTemplateWrap = styled.div`
@@ -13,13 +13,13 @@ const DodoTemplateWrap = styled.div`
   margin: 0 auto;
   border-radius: 4px;
   overflow: hidden;
-  `
+`
 const AppTitle = styled.div`
-    background-color:rgba(74,98,99,1);
-    padding:1rem;
-    font-size: 4rem;
-    font-weight: bold;
-    text-align: center;
+  background-color: rgba(74, 98, 99, 1);
+  padding: 1rem;
+  font-size: 4rem;
+  font-weight: bold;
+  text-align: center;
 `
 const Content = styled.div`
   background: white;
@@ -28,10 +28,10 @@ const Content = styled.div`
 const DodoTemplate = ({ children }) => {
   return (
     <OuterWrap>
-        <DodoTemplateWrap>
+      <DodoTemplateWrap>
         <AppTitle>DO DO LIST</AppTitle>
         <Content>{children}</Content>
-        </DodoTemplateWrap>
+      </DodoTemplateWrap>
     </OuterWrap>
   )
 }
