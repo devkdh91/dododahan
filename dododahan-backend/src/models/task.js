@@ -25,7 +25,10 @@ const TaskSchema = new Schema({
   startTime: Array,
   pauseTime: Array,
   endTime: String,
-  period: Number,
+  period: {
+    type: Number,
+    default: 0
+  },
 })
 
 TaskSchema.plugin(autoIncrement.plugin, {
@@ -34,6 +37,9 @@ TaskSchema.plugin(autoIncrement.plugin, {
     startAt: 0,
     increment: 1,
   })
+TaskSchema.statics.findByUserName = function (registerDate, userName) {
+  return this.find({ registerDate, userName })
+}
 
 const tasks = connection.model('Task', TaskSchema)
 const Task = mongoose.model('Task', TaskSchema)

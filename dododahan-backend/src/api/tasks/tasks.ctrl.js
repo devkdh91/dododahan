@@ -7,14 +7,15 @@ const slackBotSend = async (message) => {
   slack.webhook({
     text: message
   }, function(err, response){
-    console.log(response)
+    // console.log(response)
   })
 }
 
 export const list = async (ctx) => {
-  const userName = ctx.params
+  const {userName} = ctx.params
+  const registerDate = new Date().toLocaleDateString()
     try {
-      const tasks = await Task.find().exec()
+      const tasks = await Task.findByUserName(registerDate, userName)
       ctx.body = tasks
     } catch (e) {
       ctx.throw(500, e)
@@ -33,7 +34,7 @@ export const write = async (ctx) => {
 
     try {
       await task.save()
-      slackBotSend(userName+'님이 '+'"' + taskName + '" 업무를 시작합니다')
+      slackBotSend(userName+'님이 '+'"' + taskName + '" 업무를 시작하셨습니다')
       ctx.body = task
     } catch (e) {
       ctx.throw(500, e)

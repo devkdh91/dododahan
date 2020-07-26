@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import {AiFillCaretDown} from 'react-icons/ai'
+import {GiExitDoor} from 'react-icons/gi'
 
 const Header = styled.div`
     height:5rem;
@@ -10,6 +11,7 @@ const Header = styled.div`
     display:flex;
     justify-content:space-between;
     padding: 0 1rem;
+    position:relative;
 `
 const UserName = styled.div`
     line-height:5rem;
@@ -20,13 +22,25 @@ const FoldBtn = styled.div`
     height:fit-content;
     cursor:pointer;
 `
+const GoodbyeBtn = styled.div`
+    position:absolute;
+    left:20rem;
+    top:0;
+    height:2rem;
+    margin-top:1.2rem;
+    line-height:2rem;
+    cursor:pointer;
+`
 
 
-const WTHeader = ({handleFold}) => {
+const WTHeader = ({handleFold, user, comeTime, loginUser, Goodbye}) => {
     return (
         <Header>
-            <UserName>김혜진</UserName>
-            <FoldBtn><AiFillCaretDown size="1.5rem" onClick={handleFold}/></FoldBtn>
+            <UserName>{user.role}&nbsp;{user.name}{comeTime ? ' ( '+ comeTime + '출근 )' : ''}
+                {loginUser === user.nickname && <GoodbyeBtn onClick={Goodbye}><GiExitDoor size="2rem"/></GoodbyeBtn>}
+            </UserName>
+            <FoldBtn><AiFillCaretDown size="1.5rem" onClick={()=>{handleFold(user.nickname)}}/></FoldBtn>
+            
         </Header>
     )
 }

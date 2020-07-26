@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Link, Switch, Route, BrowserRouter as Router } from 'react-router-dom'
 import styled from 'styled-components'
 import { FcHome } from 'react-icons/fc'
@@ -8,6 +8,9 @@ import Navigator from './navigator'
 import Study from './study/index'
 import DodoApp from './dodolist/DodoApp'
 import Worktime from './worktime/Worktime'
+import WTLogin from './worktime/components/WTLogin'
+import AuthContext, {AuthProvider} from './contexts/auth'
+import axios from 'axios'
 
 const HomeBtn = styled.div`
   position: absolute;
@@ -19,6 +22,18 @@ const HomeBtn = styled.div`
 `
 
 function App() {
+  const authInfos = useContext(AuthContext)
+  const [loginInfo, setLoginInfo] = useState('')
+  const checkLogin = async () => {
+    await axios.create().get('/api/users/check').then(res => setLoginInfo(res.data))
+  }
+
+  useEffect(()=>{
+    checkLogin()
+  },[])
+  useEffect(()=>{
+    checkLogin()
+  },[authInfos])
   return (
     // <>
     //   <Router>
@@ -35,7 +50,18 @@ function App() {
     //     </Switch>
     //   </Router>
     // </>
-    <Worktime/>
+    <>
+    <Router>
+      <AuthProvider>
+        {/* {!authInfos.loginInfo ?  */}
+        {loginInfo === 'no logined' ? 
+        <WTLogin/>
+        :
+        <Worktime>{loginInfo}</Worktime>
+      }
+      </AuthProvider>
+    </Router>
+    </>
   )
 }
 

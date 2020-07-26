@@ -26,18 +26,15 @@ const SubmitBtn = styled.div`
     background:rgb(60, 122, 137);
 `
 
-const WTInsert = ({onInsert}) => {
+const WTInsert = ({onInsert, user}) => {
     const [inputs, setInputs] = useState('')
     const handleInput = e => {
         setInputs(e.target.value)
     }
-    const getName = (e) => {
-        alert(e.target.getAttribute('name'))
-    }
     return (
         <InsertWrap>
             <InputBox value={inputs} onChange={handleInput}/>
-            <SubmitBtn onClick={(e)=>{onInsert("heni", inputs); setInputs('')}}>시작</SubmitBtn>
+            <SubmitBtn onClick={(e)=>{onInsert(user, inputs); setInputs('')}}>시작</SubmitBtn>
         </InsertWrap>
     )
 }

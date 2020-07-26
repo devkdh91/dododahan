@@ -66,7 +66,7 @@ const WTListItem = ({task, onPause, onRestart, onFinish, getStringTime, getPerio
             <StartTime onClick={()=>{console.log(getDuration())}}>{task.startTime[0]}</StartTime>
             <EndTime>{task.endTime}</EndTime>
             <PeriodTime color={(task.endTime && task.period !== '진행시간') && 'grey'}>
-                {task.period === '진행시간' ? '진행시간' : duration+(task.period && task.period)}{task.period !== '진행시간' && '분'}
+                {task.period === '진행시간' ? '진행시간' : (task.endTime ? task.period : task.period + duration)}{task.period !== '진행시간' && '분'}
             </PeriodTime>
             {!task.endTime && 
                 <ButtonsArea>

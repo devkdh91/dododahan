@@ -3,7 +3,7 @@ import * as tasksCtrl from './tasks.ctrl'
 
 const tasks = new Router()
 
-tasks.get('/', tasksCtrl.list)
+tasks.get('/:userName', tasksCtrl.list)
 tasks.post('/', tasksCtrl.write)
 tasks.patch('/update/restart', tasksCtrl.STupdate)
 tasks.patch('/update/pause', tasksCtrl.PTupdate)
