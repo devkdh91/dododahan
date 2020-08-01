@@ -1,4 +1,4 @@
-import Task from '../../models/task'
+import Task from '../../models/wt_task'
 import Slack from 'slack-node'
 const slack = new Slack()
 slack.setWebhook("https://hooks.slack.com/services/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")

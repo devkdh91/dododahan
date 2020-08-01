@@ -1,6 +1,11 @@
 import mongoose from 'mongoose'
 import jwt from 'jsonwebtoken'
 
+const connection = mongoose.createConnection('mongodb://localhost/tengle-worktime', {
+  useNewUrlParser: true,
+  useFindAndModify: false,
+})
+
 const { Schema } = mongoose
 const UserSchema = new Schema({
     userName: String,
@@ -24,5 +29,6 @@ UserSchema.methods.generateToken = function () {
   )
   return token
 }
-const User = mongoose.model('User', UserSchema)
+const User = connection.model('WT_User', UserSchema)
+// const User = mongoose.model('WT_User', UserSchema)
 export default User

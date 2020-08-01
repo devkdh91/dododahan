@@ -2,7 +2,6 @@ import React, {useState, useRef, useEffect} from 'react'
 import styled, {keyframes} from 'styled-components'
 import {MdFingerprint} from 'react-icons/md'
 import axios from 'axios'
-import {AuthConsumer} from '../../contexts/auth'
 
 const LoginWrap = styled.div`
     height:100%;
@@ -75,7 +74,6 @@ const WTLogin = () => {
     const InputRef = useRef()
     const [authPage, setAuthPage] = useState(false)
     const [input, setInput] = useState('')
-    const [loginInfo, setLoginInfo] = useState('')
     const handleInput = (e) => {
         setInput(e.target.value)
     }
@@ -84,7 +82,10 @@ const WTLogin = () => {
     },[])
 
     const Login = async () => {
-        axios.create().post('/api/users/login', {userName: input})
+        axios.create().post('/api/users/login', {
+            registerDate: new Date().toLocaleDateString(),
+            userName: input
+        })
         .then(res => {
                 if(res.data){
                     setTimeout(function(){window.location.reload()}, 4000)

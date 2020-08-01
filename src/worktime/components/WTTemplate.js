@@ -11,7 +11,7 @@ import axios from 'axios'
 const TemplateWrap = styled.div`
     width:1024px;
     /* height:30rem; */
-    height:${props => props.fold ? '5rem' : '40rem'};
+    height:${props => props.fold ? '5rem' : '30rem'};
     border-radius: 1rem 1rem 0 0 ;
     margin:0 auto;
     background:#ADEEE3;
@@ -30,22 +30,31 @@ const TemplateInnerWrap = styled.div`
     z-index:1;
 `
 
-const WTTemplate = ({ fold, handleFold, user, loginUser}) => {
+const WTTemplate = ({ fold, handleFold, pickDate, user, loginUser}) => {
     const client = axios.create()
     const [update, setUpdate] = useState(false)
     const [tasks, setTasks] = useState([])
     const [comeTime, setComeTime] = useState('')
-    const getTaskList = async (userName) => {
-        await client.get(`/api/tasks/${userName}`).then(res => setTasks(res.data))
+    const getTaskList = async (registerDate, userName) => {
+        const dateAndName = registerDate+'/'+userName
+        await client.get(`/api/tasks/${dateAndName}`).then(res => setTasks(res.data))
     }
 
-    const getComeTime = async (userName) => {
-        await client.get(`/api/timechecks/${userName}`).then(res => setComeTime(res.data.comeTime))
+    const getComeTime = async (registerDate, userName) => {
+        const dateAndName = registerDate+'/'+userName
+        await client.get(`/api/timechecks/${dateAndName}`).then(res => setComeTime(res.data.comeTime))
     }
 
     const Goodbye = async () => {
-        await client.patch('/api/timechecks/goodbye')
-        window.location.reload()
+        if(tasks.filter(task => !task.hasOwnProperty('endTime')).length !== 0){
+            alert('하던 일은 끝내고 가야쥬~')
+            return
+        }
+        if(window.confirm('벌써 퇴근??')){
+            const registerDate = new Date().toLocaleDateString()
+            await client.patch(`/api/timechecks/goodbye/${registerDate}`).then(alert('수고하셨습니다~'))
+            window.location.reload()
+        }
     }
 
     const Update = () => {
@@ -62,7 +71,12 @@ const WTTemplate = ({ fold, handleFold, user, loginUser}) => {
     }
 
     const onInsert = async (user, inputs) => {
+        if(tasks.filter(task => !task.endTime && task.startTime.length > task.pauseTime.length).length !== 0){
+            alert('진행중인 업무를 중지or종료 해주세요')
+            return
+        }
         await client.post('/api/tasks', {
+            registerDate: new Date().toLocaleDateString(),
             userName: user,
             taskName: inputs,
             startTime : [getStringTime()]
@@ -81,7 +95,7 @@ const WTTemplate = ({ fold, handleFold, user, loginUser}) => {
         await client.patch('/api/tasks/update/pause', {
             taskNo: task.taskNo,
             pauseTime : [...task.pauseTime, getStringTime()],
-            period: task.period + getPeriod(getStringTime(), task.startTime.slice(-1)[0])
+            period: task.period + getPeriod(getStringTime(), task.startTime[task.startTime.length -1])
         })
         Update()
     }
@@ -98,21 +112,21 @@ const WTTemplate = ({ fold, handleFold, user, loginUser}) => {
         await client.patch('/api/tasks/update/end', {
             taskNo: task.taskNo,
             endTime: getStringTime(),
-            period: task.startTime.length > task.pauseTime.length ? task.period + getPeriod(getStringTime(), task.startTime.slice(-1)[0]) : task.period
+            period: task.startTime.length > task.pauseTime.length ? task.period + getPeriod(getStringTime(), task.startTime[task.startTime.length-1]) : task.period
         })
         Update()
     }
     useEffect(()=>{
-        getComeTime(user.nickname)
-    },[])
+        getComeTime(pickDate.toLocaleDateString(),user.nickname)
+    },[pickDate])
     useEffect(()=>{
-        getTaskList(user.nickname)
-    },[update])
+        getTaskList(pickDate.toLocaleDateString(), user.nickname)
+    },[update, pickDate])
     return (
         <TemplateWrap fold={fold}>
             {loginUser !== user.nickname && <TemplateInnerWrap/>}
-            <WTHeader handleFold={handleFold} user={user} comeTime={comeTime} Goodbye={Goodbye} loginUser={loginUser}/>
-                    <WTInsert onInsert={onInsert} user={user.nickname}/>
+            <WTHeader handleFold={handleFold} user={user} comeTime={comeTime} Goodbye={Goodbye} loginUser={loginUser} tasks={tasks} getStringTime={getStringTime} getPeriod={getPeriod}/>
+                    {pickDate.toLocaleDateString() === new Date().toLocaleDateString() && <WTInsert onInsert={onInsert} user={user.nickname}/>}
                     <WTList>
                         {tasks.length !== 0 && tasks.map(task => 
                             <WTListItem 

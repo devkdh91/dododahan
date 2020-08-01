@@ -1,4 +1,4 @@
-import Timecheck from '../../models/timecheck'
+import Timecheck from '../../models/wt_timecheck'
 
 import Slack from 'slack-node'
 const slack = new Slack()

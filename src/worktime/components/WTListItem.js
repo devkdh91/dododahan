@@ -45,7 +45,7 @@ const WTListItem = ({task, onPause, onRestart, onFinish, getStringTime, getPerio
     
     const [duration, setDuration] = useState('')
     const getDuration = () => {
-        const fromLastST = getPeriod && getPeriod((getStringTime && getStringTime()), task.startTime.slice(-1)[0])
+        const fromLastST = getPeriod && getPeriod((getStringTime && getStringTime()), task.startTime[task.startTime.length-1])
         return task.endTime ? 0 : fromLastST
     }
     
@@ -56,17 +56,17 @@ const WTListItem = ({task, onPause, onRestart, onFinish, getStringTime, getPerio
            setDuration(getDuration())
     }, 1000*60)
     //    return () => {clearInterval(durationTimer)}
-    },[])
+    },[task])
     
     return (
         <ItemWrap color={task.endTime ? 'lightgrey' : (task.startTime.length === task.pauseTime.length ? 'red' : 'black')}>
             <TaskTitle>
             {task.taskName !== '업무내용' && <FaDotCircle size="10px"/>}&nbsp;{task.taskName}
             </TaskTitle>
-            <StartTime onClick={()=>{console.log(getDuration())}}>{task.startTime[0]}</StartTime>
+            <StartTime onClick={()=>{console.log(task)}}>{task.startTime[0]}</StartTime>
             <EndTime>{task.endTime}</EndTime>
             <PeriodTime color={(task.endTime && task.period !== '진행시간') && 'grey'}>
-                {task.period === '진행시간' ? '진행시간' : (task.endTime ? task.period : task.period + duration)}{task.period !== '진행시간' && '분'}
+                {task.period === '진행시간' ? '진행시간' : ((task.endTime || task.startTime.length === task.pauseTime.length) ? task.period : task.period + duration)}{task.period !== '진행시간' && '분'}
             </PeriodTime>
             {!task.endTime && 
                 <ButtonsArea>

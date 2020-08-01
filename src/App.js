@@ -9,7 +9,6 @@ import Study from './study/index'
 import DodoApp from './dodolist/DodoApp'
 import Worktime from './worktime/Worktime'
 import WTLogin from './worktime/components/WTLogin'
-import AuthContext, {AuthProvider} from './contexts/auth'
 import axios from 'axios'
 
 const HomeBtn = styled.div`
@@ -22,7 +21,6 @@ const HomeBtn = styled.div`
 `
 
 function App() {
-  const authInfos = useContext(AuthContext)
   const [loginInfo, setLoginInfo] = useState('')
   const checkLogin = async () => {
     await axios.create().get('/api/users/check').then(res => setLoginInfo(res.data))
@@ -31,9 +29,6 @@ function App() {
   useEffect(()=>{
     checkLogin()
   },[])
-  useEffect(()=>{
-    checkLogin()
-  },[authInfos])
   return (
     // <>
     //   <Router>
@@ -51,16 +46,11 @@ function App() {
     //   </Router>
     // </>
     <>
-    <Router>
-      <AuthProvider>
-        {/* {!authInfos.loginInfo ?  */}
         {loginInfo === 'no logined' ? 
         <WTLogin/>
         :
         <Worktime>{loginInfo}</Worktime>
       }
-      </AuthProvider>
-    </Router>
     </>
   )
 }

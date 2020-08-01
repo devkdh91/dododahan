@@ -33,7 +33,7 @@ const WTInsert = ({onInsert, user}) => {
     }
     return (
         <InsertWrap>
-            <InputBox value={inputs} onChange={handleInput}/>
+            <InputBox value={inputs} onChange={handleInput} onKeyDown={(e)=>{if(e.keyCode === 13){onInsert(user, inputs); setInputs('')}}}/>
             <SubmitBtn onClick={(e)=>{onInsert(user, inputs); setInputs('')}}>시작</SubmitBtn>
         </InsertWrap>
     )

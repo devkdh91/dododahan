@@ -1,5 +1,5 @@
-import User from '../../models/user'
-import Timecheck from '../../models/timecheck'
+import User from '../../models/wt_user'
+import Timecheck from '../../models/wt_timecheck'
 import { welcome } from '../timechecks/timechecks.ctrl'
 import axios from 'axios'
 

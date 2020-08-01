@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 mongoose.set('useCreateIndex', true)
 import autoIncrement from 'mongoose-auto-increment'
-const connection = mongoose.createConnection('mongodb://localhost/worktime', {
+const connection = mongoose.createConnection('mongodb://localhost/tengle-worktime', {
   keepAlive: true,
   useNewUrlParser: true,
   useCreateIndex: true,
@@ -41,6 +41,6 @@ TaskSchema.statics.findByUserName = function (registerDate, userName) {
   return this.find({ registerDate, userName })
 }
 
-const tasks = connection.model('Task', TaskSchema)
-const Task = mongoose.model('Task', TaskSchema)
+const Task = connection.model('WT_Task', TaskSchema)
+// const Task = mongoose.model('WT_Task', TaskSchema)
 export default Task
