@@ -25,6 +25,7 @@ const Navigator = () => {
       <Button to="/todoapp">투두 앱</Button>
       <Button to="/dodolist">두두리스트</Button>
       <Button to="/study">공부방</Button>
+      <Button to="/import">아임포트</Button>
     </Buttons>
   )
 }

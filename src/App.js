@@ -9,6 +9,7 @@ import Study from './study/index'
 import DodoApp from './dodolist/DodoApp'
 import Worktime from './worktime/Worktime'
 import WTLogin from './worktime/components/WTLogin'
+import ImportApiTest from './importApi'
 import axios from 'axios'
 
 const HomeBtn = styled.div`
@@ -30,27 +31,21 @@ function App() {
     checkLogin()
   },[])
   return (
-    // <>
-    //   <Router>
-    //     <HomeBtn>
-    //       <Link to="/">
-    //         <FcHome size="24" />
-    //       </Link>
-    //     </HomeBtn>
-    //     <Switch>
-    //       <Route exact path="/" component={Navigator} />
-    //       <Route path="/todoapp" component={TodoApp} />
-    //       <Route path="/study" component={Study} />
-    //       <Route path="/dodolist" component={DodoApp} />
-    //     </Switch>
-    //   </Router>
-    // </>
     <>
-        {loginInfo === 'no logined' ? 
-        <WTLogin/>
-        :
-        <Worktime>{loginInfo}</Worktime>
-      }
+      <Router>
+        <HomeBtn>
+          <Link to="/">
+            <FcHome size="24" />
+          </Link>
+        </HomeBtn>
+        <Switch>
+          <Route exact path="/" component={Navigator} />
+          <Route path="/todoapp" component={TodoApp} />
+          <Route path="/study" component={Study} />
+          <Route path="/dodolist" component={DodoApp} />
+          <Route path="/import" component={ImportApiTest} />
+        </Switch>
+      </Router>
     </>
   )
 }
